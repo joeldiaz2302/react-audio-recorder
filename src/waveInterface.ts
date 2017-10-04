@@ -38,7 +38,7 @@ export default class WAVEInterface {
         if (this.encodingCache) this.encodingCache = null;
 
         recProcessingNode.onaudioprocess = (event) => {
-          console.log('audio process', this);
+          // console.log('audio process', this);
           if (this.encodingCache) this.encodingCache = null;
           // save left and right buffers
           for (let i = 0; i < 2; i++) {

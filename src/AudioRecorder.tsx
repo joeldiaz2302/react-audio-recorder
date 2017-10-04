@@ -1,4 +1,6 @@
 import * as React from 'react';
+import FontAwesome from 'react-fontawesome';
+import { Row, Button } from 'react-bootstrap';
 import WAVEInterface from './waveInterface';
 import downloadBlob from './downloadBlob';
 
@@ -9,6 +11,7 @@ interface AudioRecorderChangeEvent {
 interface AudioRecorderProps {
   initialAudio?: Blob,
   downloadable?: boolean,
+  uploadable?: boolean,
   loop?: boolean,
   filename?: string,
   className?: string,
@@ -20,6 +23,8 @@ interface AudioRecorderProps {
   onPause?: () => void,
   onPlay?: () => void,
   onRecordStart?: () => void,
+  onDownloadClick?: () => void,
+  onUploadClickHandler?: (object)=>void,
 
   playLabel?: string,
   playingLabel?: string,
@@ -27,6 +32,8 @@ interface AudioRecorderProps {
   recordingLabel?: string,
   removeLabel?: string,
   downloadLabel?: string,
+  uploadLabel?: string,
+  uploadConfig?: Object,
 };
 
 interface AudioRecorderState {
@@ -47,15 +54,17 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
   static defaultProps = {
     loop: false,
     downloadable: true,
+    uploadable: true,
     className: '',
     style: {},
     filename: 'output.wav',
-    playLabel: '🔊 Play',
-    playingLabel: '❚❚ Playing',
-    recordLabel: '● Record',
-    recordingLabel: '● Recording',
-    removeLabel: '✖ Remove',
-    downloadLabel: '\ud83d\udcbe Save' // unicode floppy disk
+    playLabel: (<span><FontAwesome name='play' /> Play</span>),
+    playingLabel: <span><FontAwesome name='pause' /> Playing</span>,
+    recordLabel: (<span><FontAwesome name='microphone' /> Record</span>),
+    recordingLabel: <span><FontAwesome name='microphone' style={{color: "red"}}/> Recording</span>,
+    removeLabel: <span><FontAwesome name='times' /> Remove</span>,
+    downloadLabel: <span><FontAwesome name='download' /> Save</span>, // unicode floppy disk,
+    uploadLabel: <span><FontAwesome name='upload' /> Upload</span> // unicode floppy disk
   };
 
   componentWillReceiveProps(nextProps) {
@@ -135,7 +144,20 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
     });
   };
 
-  onDownloadClick = () => downloadBlob(this.state.audioData, this.props.filename);
+  onUploadClick = () => {
+    if (this.props.onUploadClickHandler){
+      if (this.props.onUploadClickHandler(this.waveInterface.audioData)){
+        this.onRemoveClick();
+      }
+    }
+  };
+
+  onDownloadClick = () => {
+    if (this.props.onDownloadClick){
+      this.props.onDownloadClick();
+    }
+    downloadBlob(this.state.audioData, this.props.filename);
+  };
 
   onButtonClick = (event: React.SyntheticEvent<HTMLButtonElement>) => {
     if (this.state.audioData) {
@@ -157,7 +179,7 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
   render() {
     return (
       <div className="AudioRecorder">
-        <button
+        <Button
           className={
             [
               'AudioRecorder-button',
@@ -172,22 +194,30 @@ export default class AudioRecorder extends React.Component<AudioRecorderProps, A
           {this.state.audioData && this.state.isPlaying && this.props.playingLabel}
           {!this.state.audioData && !this.state.isRecording && this.props.recordLabel}
           {!this.state.audioData && this.state.isRecording && this.props.recordingLabel}
-        </button>
+        </Button>
         {this.state.audioData &&
-          <button
+          <Button
             className="AudioRecorder-remove"
             onClick={this.onRemoveClick}
           >
             {this.props.removeLabel}
-          </button>
+          </Button>
         }
         {this.state.audioData && this.props.downloadable &&
-          <button
+          <Button
             className="AudioRecorder-download"
             onClick={this.onDownloadClick}
           >
             {this.props.downloadLabel}
-          </button>
+          </Button>
+        }
+        {this.state.audioData && this.props.uploadable &&
+          <Button
+            className="AudioRecorder-upload"
+            onClick={this.onUploadClick}
+          >
+            {this.props.uploadLabel}
+          </Button>
         }
       </div>
     );
