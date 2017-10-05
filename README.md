@@ -1,3 +1,6 @@
+# Attention
+This is a fork of this project: [https://github.com/danrouse/react-audio-recorder]
+
 # Audio Recorder
 
 A React Component using the Web Audio API to record, save, and play audio.
