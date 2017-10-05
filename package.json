@@ -33,8 +33,7 @@
     "react-dom": "^15.4.2",
     "ts-jest": "^19.0.6",
     "typescript": "^2.2.2",
-    "webpack": "^2.3.3",
-    "axios": "^0.16.2"
+    "webpack": "^2.3.3"
   },
   "jest": {
     "transform": {
@@ -49,7 +48,11 @@
     "testResultsProcessor": "<rootDir>/node_modules/ts-jest/coverageprocessor.js"
   },
   "dependencies": {
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
     "react-bootstrap": "^0.31.3",
-    "react-fontawesome": "^1.6.1"
+    "react-fontawesome": "^1.6.1",
+    "typescript": "^2.2.2",
+    "webpack": "^2.3.3"
   }
 }
