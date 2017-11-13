@@ -1,6 +1,9 @@
 import encodeWAV from './waveEncoder';
 declare var AudioContext, webkitAudioContext: any;
 const AudioCtxt = AudioContext || webkitAudioContext;
+
+console.log(AudioCtxt);
+
 /*
 interface Navigator {
   webkitGetUserMedia?: typeof navigator.getUserMedia,
