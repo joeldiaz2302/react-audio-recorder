@@ -1,6 +1,6 @@
 {
   "name": "uploadable-react-audio-recorder",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Audio Recorder",
   "main": "dist/AudioRecorder.min.js",
   "module": "dist/AudioRecorder.js",

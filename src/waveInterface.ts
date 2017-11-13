@@ -1,5 +1,6 @@
 import encodeWAV from './waveEncoder';
-
+declare var AudioContext, webkitAudioContext: any;
+const AudioCtxt = AudioContext || webkitAudioContext;
 /*
 interface Navigator {
   webkitGetUserMedia?: typeof navigator.getUserMedia,
@@ -13,7 +14,7 @@ navigator.getUserMedia = navigator.getUserMedia ||
 */
 
 export default class WAVEInterface {
-  static audioContext = new AudioContext();
+  static audioContext = new AudioCtxt();
   static bufferSize = 2048;
 
   playbackNode: AudioBufferSourceNode;

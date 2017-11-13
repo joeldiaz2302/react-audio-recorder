@@ -1,4 +1,5 @@
 import encodeWAV from './waveEncoder';
+var AudioCtxt = AudioContext || webkitAudioContext;
 /*
 interface Navigator {
   webkitGetUserMedia?: typeof navigator.getUserMedia,
@@ -104,7 +105,7 @@ var WAVEInterface = /** @class */ (function () {
         this.stopRecording();
         this.buffers = [[], []];
     };
-    WAVEInterface.audioContext = new AudioContext();
+    WAVEInterface.audioContext = new AudioCtxt();
     WAVEInterface.bufferSize = 2048;
     return WAVEInterface;
 }());
